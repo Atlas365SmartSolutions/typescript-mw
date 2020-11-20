@@ -10,7 +10,7 @@ import queriesInit from 'iroha-helpers/lib/queries/index';
 const commands =  commandsInit;
 const queries = queriesInit;
 const app = express();
-const port = '3000';
+const port = 3000;
 const IROHA_ADDRESS = '0.0.0.0:50051';
 const adminPriv =
   'f101537e319568c765b2cc89698325604991dca57b9716b58016b253506cab70';
@@ -41,18 +41,18 @@ app.get('/', (req, res) => {
   res.send('The sedulous hyena ate the antelope!');
 });
 app.get('/iroha-test', (req, res) => {
-
-        const accountKey = 'admin@test';
+    const accountKey = 'admin@test';
     const batchKeySearch = 'batch_001';
     const respBatchSearchKey = 'batch_0001';
 
     queries.getAccountDetail(QUERY_OPTIONS, {
         accountId: accountKey,
         key: batchKeySearch,
-        writer: accountKey
-
-    })
-    .then(resp => {
+        pageSize: 100,
+        paginationKey: 'coin#test',
+        paginationWriter: accountKey,
+        writer: accountKey,
+    }).then(resp => {
 
         alert(JSON.stringify(resp));
             // 1st parse is to get rid of escaped backslashes
@@ -72,9 +72,9 @@ app.get('/iroha-test', (req, res) => {
     // res.send("iroha-testing");
   });
 app.listen(port, err => {
-  if (err) {
-    return console.error(err);
-  }
+  // if (err) {
+  //   return console.error(err);
+  // }
 
   return console.log(`server is listening on ${port}`);
 });
